@@ -19,6 +19,10 @@ Output: 3
 
 class Solution:
     def findJudge(self, N: int, trust: List[List[int]]) -> int:
+        '''
+        time complexity : O(N)...maybe??
+        space complexity : O(N)
+        '''
         source_count = [0] * N
         target_count = [0] * N
         # 각 i에 대해서, trust[i] = [a, b] 일 때, a를 source, b를 target으로 count한다.
