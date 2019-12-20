@@ -27,27 +27,26 @@ The number of keys in all rooms combined is at most 3000.
 class Solution:
     
     def canVisitAllRooms(self, rooms: List[List[int]]) -> bool:
-        self.rooms = rooms
+        ''' O(N + |E|) / O(N) '''
+        def visitRooms(room_number):
+            '''
+            room_number부터 시작해서 방문한 적 없는 (=unvisited_rooms에 있는) 모든 방들을 recursive하게 방문한다.
+            '''
+            if room_number in unvisited_rooms:
+                unvisited_rooms.remove(room_number)
+                keys = rooms[room_number]
+                for key in keys:
+                    visitRooms(key)
+        
+
         n_rooms = len(rooms)
         # 방문한 적 없는 방들의 set
-        self.unvisited_rooms = set(range(n_rooms))
+        unvisited_rooms = set(range(n_rooms))
         
-        # 0번 방에서 시작해서 갈 수 있는 모든 방을 recursive하게 방문하면서, self.unvisited_rooms를 update한다.
-        self.visitRooms(0)
+        # 0번 방에서 시작해서 갈 수 있는 모든 방을 recursive하게 방문하면서, unvisited_rooms를 update한다.
+        visitRooms(0)
         
-        if len(self.unvisited_rooms) == 0:
+        if len(unvisited_rooms) == 0:
             return True
         else:
             return False
-        
-        
-    
-    def visitRooms(self, room_number):
-        '''
-        room_number부터 시작해서 방문한 적 없는 (=self.unvisited_rooms에 있는) 모든 방들을 recursive하게 방문한다.
-        '''
-        if room_number in self.unvisited_rooms:
-            self.unvisited_rooms.remove(room_number)
-            keys = self.rooms[room_number]
-            for key in keys:
-                self.visitRooms(key)
