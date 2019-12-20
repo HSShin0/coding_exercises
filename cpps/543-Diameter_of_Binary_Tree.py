@@ -25,28 +25,33 @@ Note: The length of path between two nodes is represented by the number of edges
 
 class Solution:    
     def diameterOfBinaryTree(self, root: TreeNode) -> int:    
+        ''' O(N) / O(N) '''
+        def maxDepth(root: TreeNode) -> int:
+            '''
+            root로부터 가장 깊게 내려갈 수 있는 깊이를 반환한다.
+            계산 과정에서 root를 정점으로 left-subtree와 right-subtree를 통과하는 가장 긴 path 길이를 diameters 에 추가한다.
+            '''
+            if not root:
+                return 0
+
+            subtree_length = []
+            if root.left:
+                left_max = maxDepth(root.left)
+                subtree_length.append(left_max)
+
+            if root.right:
+                right_max = maxDepth(root.right)
+                subtree_length.append(right_max)
+
+            if len(subtree_length) > 0:
+                diameters.append(sum(subtree_length))
+                return max(subtree_length) + 1
+            else:
+                return 1
+        
+        
         # 각 node를 정점으로, 그 left-subtree와 right-subtree를 통과하는 가장 긴 path의 길이를 저장할 list.
-        self.diameters = [0]  # leaf node를 위해 0을 미리 추가해놓는다.
-        self.maxDepth(root)
-        return max(self.diameters)
+        diameters = [0]  # leaf node를 위해 0을 미리 추가해놓는다.
+        maxDepth(root)
         
-    def maxDepth(self, root: TreeNode) -> int:
-        '''
-        root로부터 가장 깊게 내려갈 수 있는 깊이를 반환한다.
-        계산 과정에서 root를 정점으로 left-subtree와 right-subtree를 통과하는 가장 긴 path 길이를 self.diameters 에 추가한다.
-        '''
-        if not root:
-            return 0
-        
-        subtree_length = []
-        if root.left:
-            left_max = self.maxDepth(root.left)
-            subtree_length.append(left_max)
-        if root.right:
-            right_max = self.maxDepth(root.right)
-            subtree_length.append(right_max)
-        if len(subtree_length) > 0:
-            self.diameters.append(sum(subtree_length))
-            return max(subtree_length) + 1
-        else:
-            return 1
+        return max(diameters)
