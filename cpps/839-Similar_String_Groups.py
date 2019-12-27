@@ -29,7 +29,7 @@ The judging time limit has been increased for this question.
 class Solution:
     def numSimilarGroups(self, A: List[str]) -> int:
         '''
-        time/space complexity : O(???)/O(N**2?)
+        time/space complexity : O(N^2*W)/O(N^2) where W is the (maximal) length of words in A
         '''
         unvisited = set(range(len(A)))
         
@@ -43,10 +43,6 @@ class Solution:
                 continue
                 
             for j in range(i+1, len(A)):
-                # If they are exactly same, remove the node j(>i) from the set unvisited. (****)
-                #if A[i] == A[j]:
-                #    unvisited.remove(j)
-                
                 # Count the number of different (ordered) characters between A[i] and A[j].
                 count = 0
                 for ch_i, ch_j in zip(A[i], A[j]):
